@@ -3,6 +3,10 @@
  * Everything here is a *local* schedule — no push server, no analytics.
  */
 import * as Notifications from 'expo-notifications';
+import {
+  AndroidImportance,
+  SchedulableTriggerInputTypes,
+} from 'expo-notifications';
 import { Platform } from 'react-native';
 
 export const REMINDER_CHANNEL_ID = 'daily-reflection';
@@ -52,7 +56,7 @@ async function ensureAndroidChannel(): Promise<void> {
   try {
     await Notifications.setNotificationChannelAsync(REMINDER_CHANNEL_ID, {
       name: 'Daily reflection',
-      importance: Notifications.AndroidImportance.DEFAULT,
+      importance: AndroidImportance.DEFAULT,
       lightColor: '#F2610C',
     });
   } catch {
@@ -75,7 +79,7 @@ export async function scheduleDailyReminder(options: {
         sound: false,
       },
       trigger: {
-        type: Notifications.SchedulableTriggerInputTypes.DAILY,
+        type: SchedulableTriggerInputTypes.DAILY,
         hour: options.hour,
         minute: options.minute,
         channelId: REMINDER_CHANNEL_ID,

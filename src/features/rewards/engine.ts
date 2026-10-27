@@ -136,6 +136,7 @@ export type RewardState = {
   counters: Record<string, Partial<Record<RewardEventType, number>>>;
   seenKeys: string[];
   unlockedBadgeIds: string[];
+  unlockedWallpaperIds: string[];
 };
 export type AwardResult = {
   state: RewardState;
@@ -340,4 +341,38 @@ export const EMPTY_REWARD_STATE: RewardState = {
   counters: {},
   seenKeys: [],
   unlockedBadgeIds: [],
+  unlockedWallpaperIds: [],
 };
+
+/**
+ * Spends points on a redemption (wallpaper, perk). Lifetime points are never
+ * reduced, so level progress cannot regress.
+ */
+export function spendPoints(
+  state: RewardState,
+  cost: number,
+  redemptionId: string
+): { state: RewardState; ok: boolean } {
+  if (cost <= 0) return { state, ok: false };
+  if (state.points < cost) return { state, ok: false };
+  if (state.unlockedWallpaperIds.includes(redemptionId)) return { state, ok: false };
+  return {
+    ok: true,
+    state: {
+      ...state,
+      points: state.points - cost,
+      unlockedWallpaperIds: [...state.unlockedWallpaperIds, redemptionId],
+      ledger: [
+        {
+          type: 'badge-unlock' as const,
+          id: `${Date.now()}-redeem-${Math.random().toString(36).slice(2, 8)}`,
+          points: -cost,
+          at: Date.now(),
+          dayKey: toDayKey(new Date()),
+          note: `Redeemed ${redemptionId}`,
+        },
+        ...state.ledger,
+      ].slice(0, 250),
+    },
+  };
+}

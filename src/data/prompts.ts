@@ -133,7 +133,6 @@ export const PROMPTS: JournalPrompt[] = [
     prompt: 'What is one thing you will finish this week, no matter how small?',
     reflection: 'Define "done" so there is no ambiguity.',
   },
-];
   {
     id: 'p19',
     category: 'self-improvement',

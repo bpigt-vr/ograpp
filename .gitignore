@@ -38,6 +38,19 @@ yarn-error.*
 
 example
 
-# generated native folders
+# generated native folders (android/ is committed so it opens in Android Studio)
 /ios
-/android
+
+# android build output & local secrets
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/keystore.properties
+android/app/*.jks
+!android/app/debug.keystore
+
+# local build toolchain / artifacts
+.toolchain/
+.gradle-cache/
+dist/

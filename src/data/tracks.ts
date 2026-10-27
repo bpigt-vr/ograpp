@@ -145,4 +145,8 @@ export function albumForTrack(trackId: string): Album | undefined {
   return track ? getAlbum(track.albumId) : undefined;
 }
 
+export function trackGradient(trackId: string): readonly [string, string, string] {
+  return albumForTrack(trackId)?.gradient ?? ['#FF9A4D', '#D93A0B', '#2A0803'];
+}
+
 export const FEATURED_TRACK = ALL_TRACKS.find((track) => track.featured) ?? ALL_TRACKS[0];
