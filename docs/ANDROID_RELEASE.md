@@ -110,8 +110,14 @@ The signed artifact appears under `android/app/release/`.
 
 ## 5. CI build (no local SDK required)
 
-`.github/workflows/android-release.yml` builds an APK and an AAB on every tag
-(`v*`) and on manual dispatch, then uploads them as workflow artifacts.
+`docs/ci/android-release.yml` builds an APK and an AAB on every tag (`v*`) and
+on manual dispatch, then uploads them as workflow artifacts. Copy it into place
+when you have CI workflow permissions:
+
+```bash
+mkdir -p .github/workflows
+cp docs/ci/android-release.yml .github/workflows/android-release.yml
+```
 
 Add these repository secrets to produce a Play-ready, properly signed AAB:
 
